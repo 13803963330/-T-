@@ -8,6 +8,32 @@ const routes = [
   {
     path: '/login',
     component: () => import('@/views/login')
+  },
+  {
+    path: '/layout',
+    component: () => import('@/views/Layout'),
+    children: [
+      {
+        path: 'home',
+        component: () => import('@/views/Home')
+      },
+      {
+        path: 'my',
+        component: () => import('@/views/My')
+      },
+      {
+        path: 'qa',
+        component: () => import('@/views/QA')
+      },
+      {
+        path: 'video',
+        component: () => import('@/views/Video')
+      }
+    ]
+  },
+  {
+    path: '/',
+    redirect: '/layout/home'
   }
 ]
 
