@@ -10,3 +10,11 @@ export const login = (mobile, code) => {
     data: { code, mobile }
   })
 }
+export const SendCode = (mobile) => {
+  /**
+   * @param {string} mobile 手机号
+   */
+  return request({
+    url: `/v1_0/sms/codes/${mobile}`
+  })
+}
