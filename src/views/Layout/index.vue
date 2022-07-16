@@ -1,8 +1,6 @@
 <template>
   <div>
-    布局页面
     <router-view></router-view>
-    <span class="iconfont icon-wenda"></span>
     <!-- 导航 -->
     <van-tabbar route v-model="active" class="foot">
       <van-tabbar-item to="/layout/home">
@@ -27,7 +25,7 @@
         <template #icon>
           <span class="iconfont icon-wode"></span>
         </template>
-        我的
+        {{ !!$store.state.user.token ? '我的' : '未登录' }}
       </van-tabbar-item>
     </van-tabbar>
   </div>

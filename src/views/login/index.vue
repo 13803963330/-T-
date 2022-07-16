@@ -89,7 +89,7 @@ export default {
         // 存储token
         this.$store.commit('setUser', res.data.data)
         this.$toast.success('呦吼~登陆成功')
-        this.$router.push('/profile')
+        this.$router.push('/')
       } catch (e) {
         const status = e.response.status
         let message = '登陆错误，请刷新再试'
@@ -133,10 +133,10 @@ export default {
         }
         console.log(e)
       }
-    },
-    increment () {
-      this.$store.commit('setNumeber', 1)
     }
+    // increment () {
+    //   this.$store.commit('setNumeber', 1)
+    // }
   },
   computed: {},
   watch: {},
