@@ -1,6 +1,7 @@
 <template>
   <div class="my">
     <header>
+      <!-- 登陆时显示的盒子 -->
       <div v-if="isLogin" class="banner user-info">
         <van-row></van-row>
         <!--  -->
@@ -42,6 +43,7 @@
           </van-grid>
         </van-row>
       </div>
+      <!-- 未登陆时显示的盒子 -->
       <div v-else class="banner login-register">
         <div class="wrap" @click="Onno">
           <img src="../../assets/images/mobile.png" alt="" />
