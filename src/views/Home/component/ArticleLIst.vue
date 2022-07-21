@@ -38,7 +38,7 @@ export default {
       pre_timestamp: '',
       loading: false,
       finished: false,
-      error: true,
+      error: false,
       refreshLoading: false
     }
   },
@@ -70,14 +70,15 @@ export default {
     },
     async loadNextPage () {
       try {
-        if (Math.random() < 0.7) {
-          // console.log(Math.random())
-          throw new Error('错误')
-        }
+        // if (Math.random() < 0.7) {
+        //   // console.log(Math.random())
+        //   throw new Error('错误')
+        // }
         // 滚动条触底加载下一页数据
         const { data } = await gerArticle(this.id, +this.pre_timestamp)
         // 判断底部加载
         if (!data.data.pre_timestamp) {
+          console.log(data.data.pre_timestamp)
           this.finished = true
         }
         this.loading = false
@@ -91,6 +92,7 @@ export default {
         this.pre_timestamp = data.data.pre_timestamp
       } catch (error) {
         this.error = true
+        // console.log(this.error)
       } finally {
         this.loading = false
         this.refreshLoading = false

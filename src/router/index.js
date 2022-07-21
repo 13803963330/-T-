@@ -11,7 +11,13 @@ const routes = [
   },
   {
     path: '/search',
-    component: () => import('@/views/Search')
+    component: () => import('@/views/Search'),
+    children: [
+      {
+        path: 'result',
+        component: () => import('@/views/Search/components/result')
+      }
+    ]
   },
   {
     path: '/layout',

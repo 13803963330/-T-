@@ -1,6 +1,10 @@
 <template>
   <div>
-    <van-cell v-for="(item, index) in highlight" :key="index">
+    <van-cell
+      v-for="(item, index) in highlight"
+      :key="index"
+      @click="GoResult(index)"
+    >
       <template #icon>
         <van-icon name="search" class="search-icon"></van-icon>
       </template>
@@ -46,6 +50,10 @@ export default {
       } catch (e) {
         console.log(e)
       }
+    },
+    GoResult (index) {
+      // this.$router.push('/result')
+      this.$emit('GoResult', this.suggestions[index])
     }
   },
   computed: {

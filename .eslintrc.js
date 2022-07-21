@@ -12,6 +12,9 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/multi-word-component-names': 'off',
-    'vue/return-in-computed-property': 'off'
+    'vue/return-in-computed-property': 'off',
+    camelcase: 'off',
+    'vue/no-side-effects-in-computed-properties': 'off',
+    'key-spacing': 'off'
   }
 }

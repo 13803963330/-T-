@@ -14,11 +14,17 @@
     <!-- <HistoryAll></HistoryAll>
     <ResultAll></ResultAll>
     <SuggestAll></SuggestAll> -->
-    <component :is="commendChannels" :keywords="keyword"></component>
+    <component
+      :is="commendChannels"
+      :keywords="keyword"
+      :historyArr="historyArr"
+      @GoResult="goResult"
+    ></component>
   </div>
 </template>
 
 <script>
+import storage from '@/utils/storage'
 import HistoryAll from './components/history.vue'
 import ResultAll from './components/result.vue'
 import SuggestAll from './components/suggest.vue'
@@ -26,7 +32,8 @@ export default {
   data () {
     return {
       keyword: '',
-      follow: false
+      follow: false,
+      historyArr: []
     }
   },
   components: {
@@ -48,13 +55,24 @@ export default {
   methods: {
     onSearch () {
       this.follow = false
-      console.log('开始搜索')
+      const index = this.historyArr.indexOf(this.keyword)
+      if (index !== -1) {
+        this.historyArr.splice(index, 1)
+      }
+      this.historyArr.unshift(this.keyword)
+      storage.remove('historArr')
+      storage.set('historArr', this.historyArr)
+      // console.log('开始搜索')
     },
     onCancel () {
       this.$router.go(-1)
     },
     Takethefocus () {
       this.follow = true
+    },
+    goResult (val) {
+      this.keyword = val
+      this.follow = false
     }
   }
 }
