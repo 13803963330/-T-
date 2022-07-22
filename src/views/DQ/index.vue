@@ -23,10 +23,15 @@
           </div>
           <div class="van-cell__title">
             <div class="user-name">黑马程序员(小吴)</div>
-            <div class="van-cell__label">{{Dqitem}}</div>
+            <div class="van-cell__label">{{ Dqitem }}</div>
           </div>
           <div class="van-cell__value">
-            <van-button round type="info">+ 关注</van-button>
+            <van-button v-if="attention" round type="info" @click="gerattention"
+              >+ 关注</van-button
+            >
+            <van-button v-else round type="info" @click="gerattention"
+              >已关注</van-button
+            >
           </div>
         </div>
         <div class="article-content">
@@ -47,10 +52,18 @@
         <div class="article-bottom">
           <van-button round type="info">写评论</van-button>
           <van-icon name="comment-o" badge="6" />
-          <van-icon name="star-o" />
-          <!-- <van-icon name="star" color="red" /> -->
-          <van-icon name="good-job-o" />
-          <van-icon name="share-o" />
+
+          <van-icon v-if="!collect" name="star-o" @click="FnCllect" />
+          <van-icon v-else name="star" color="orange" @click="FnCllect" />
+
+          <van-icon v-if="!praise" name="good-job-o" @click="FnPraise" />
+          <van-icon v-else name="good-job-o" color="red" @click="FnPraise" />
+          <van-icon name="share-o" @click="showShare = true"> </van-icon>
+          <van-share-sheet
+            v-model="showShare"
+            title="立即分享给好友"
+            :options="options"
+          />
         </div>
       </div>
     </div>
@@ -59,41 +72,142 @@
 
 <script>
 import dayjs from '@/utils/dayjs'
-import { gerArticles } from '@/api/index'
+import {
+  gerArticles,
+  gerattention,
+  gertarget,
+  getCllect,
+  cancelCllect,
+  getPraise,
+  cancelPraise
+} from '@/api/index'
+
 export default {
-  data () {
+  data() {
     return {
-      dqId: '',
+      dqId: '', // 文章id
+      zzId: '', // 作者id
       Dqid: {},
-      Dqitem: ''
+      Dqitem: '',
+      collect: false,
+      praise: false,
+      attention: true,
+      showShare: false,
+      options: [
+        [
+          { name: '微信', icon: 'wechat' },
+          { name: '朋友圈', icon: 'wechat-moments' },
+          { name: '微博', icon: 'weibo' },
+          { name: 'QQ', icon: 'qq' }
+        ],
+        [
+          { name: '复制链接', icon: 'link' },
+          { name: '分享海报', icon: 'poster' },
+          { name: '二维码', icon: 'qrcode' },
+          { name: '小程序码', icon: 'weapp-qrcode' }
+        ]
+      ]
     }
   },
-  created () {
+  created() {
     this.take()
     this.gerArticles()
+    this.judge()
   },
   methods: {
     // 返回之前的页面
-    backToprepage () {
+    backToprepage() {
       this.$router.back()
     },
     // 拿到当前文章id
-    take () {
+    take() {
       this.dqId = this.$router.currentRoute.params.id
       console.log(this.dqId)
     },
     // 获取信息
-    async gerArticles () {
+    async gerArticles() {
       try {
-        console.log(this.dqId)
+        // console.log(this.dqId)
         const res = await gerArticles(this.dqId)
+        this.zzId = res.data.data.aut_id
         this.Dqid = res.data.data
         this.Dqitem = dayjs(this.Dqid.pubdate).fromNow()
-        console.log(this.Dqid)
-        // 保存第一次页码
+        // console.log(this.Dqid)
       } catch (e) {
         console.log('e', e)
         this.$toast.fail('获取文章失败，请刷新重试')
+      }
+    },
+    // 关注取消关注的请求
+    async gerattention() {
+      try {
+        // 存
+        if (this.attention) {
+          const res = await gerattention(this.zzId)
+          // console.log(res)
+          this.attentionArr = res.data.data.target
+          this.attention = !this.attention
+          // console.log('存')
+        } else {
+          // 删除
+          await gertarget(this.zzId)
+          this.attention = !this.attention
+          // console.log('删')
+        }
+      } catch (e) {
+        console.log('e', e)
+        // this.$toast.fail('获取关注失败，请刷新重试')
+      }
+    },
+    // 收藏
+    async FnCllect() {
+      // 非收藏状态点击提交收藏
+      if (!this.collect) {
+        const res = await getCllect(this.dqId)
+        console.log(res)
+        this.collect = !this.collect
+        console.log('收藏')
+      } else {
+        await cancelCllect(this.dqId)
+        this.collect = !this.collect
+        console.log('取消收藏')
+      }
+    },
+    async FnPraise() {
+      // 非收藏状态点击提交收藏
+      if (!this.praise) {
+        const res = await getPraise(this.dqId)
+        console.log(res)
+        this.praise = !this.praise
+        console.log('点赞')
+      } else {
+        await cancelPraise(this.dqId)
+        this.praise = !this.praise
+        console.log('取消点赞')
+      }
+    },
+    // 判断
+    async judge() {
+      // 拿取点赞、收藏的后台存储情况
+      const res = await gerArticles(this.dqId)
+      console.log(res)
+      // 判断是否收藏
+      if (res.data.data.is_collected) {
+        this.collect = true
+      } else {
+        console.log('是否收藏执行错误')
+      }
+      // 判断是否点赞
+      if (res.data.data.attitude === 1) {
+        this.praise = true
+      } else {
+        console.log('是否点赞执行错误')
+      }
+      // 判断是否关注
+      if (res.data.data.is_followed) {
+        this.attention = false
+      } else {
+        console.log('是否点赞执行错误')
       }
     }
   }
