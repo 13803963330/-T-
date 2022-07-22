@@ -54,6 +54,8 @@ export default {
   },
   methods: {
     onSearch () {
+      storage.set('historArr', [])
+
       this.follow = false
       this.historyArr = storage.get('historArr')
       const index = this.historyArr.indexOf(this.keyword)

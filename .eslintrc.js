@@ -17,7 +17,8 @@ module.exports = {
     'vue/no-side-effects-in-computed-properties': 'off',
     'key-spacing': 'off',
     'vue/valid-template-root': 'off',
-    'vue/no-dupe-keys':'off',
-    'no-undef':'off'
+    'vue/no-dupe-keys': 'off',
+    'no-undef': 'off',
+    'space-before-function-paren': 'off'
   }
 }
