@@ -10,7 +10,11 @@
 
     <!-- 选项卡 -->
     <van-tabs v-model="active" swipeable>
-      <van-tab v-for="item in myChannels" :key="item.id" :title="item.name">
+      <van-tab
+        v-for="item in myChannels"
+        :key="item.id"
+        :title="item.name"
+      >
         <ArticleList :id="item.id"> </ArticleList>
       </van-tab>
       <!-- 更多按钮 -->
@@ -124,6 +128,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.icon-gengduo {
+  background-color: #fff;
+}
 .navbar {
   background-color: #3296fa;
   color: #fff;

@@ -102,4 +102,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+html {
+  background: #f5f7f9;
+}
+</style>

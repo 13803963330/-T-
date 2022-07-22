@@ -11,13 +11,11 @@ const routes = [
   },
   {
     path: '/search',
-    component: () => import('@/views/Search'),
-    children: [
-      {
-        path: 'result',
-        component: () => import('@/views/Search/components/result')
-      }
-    ]
+    component: () => import('@/views/Search')
+  },
+  {
+    path: '/Dq/:id',
+    component: () => import('@/views/DQ')
   },
   {
     path: '/layout',

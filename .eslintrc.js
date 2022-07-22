@@ -15,6 +15,9 @@ module.exports = {
     'vue/return-in-computed-property': 'off',
     camelcase: 'off',
     'vue/no-side-effects-in-computed-properties': 'off',
-    'key-spacing': 'off'
+    'key-spacing': 'off',
+    'vue/valid-template-root': 'off',
+    'vue/no-dupe-keys':'off',
+    'no-undef':'off'
   }
 }

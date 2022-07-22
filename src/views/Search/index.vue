@@ -55,6 +55,7 @@ export default {
   methods: {
     onSearch () {
       this.follow = false
+      this.historyArr = storage.get('historArr')
       const index = this.historyArr.indexOf(this.keyword)
       if (index !== -1) {
         this.historyArr.splice(index, 1)

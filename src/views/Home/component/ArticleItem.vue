@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="artiicles(articleInfo)">
     <!-- 渲染无图片 -->
     <van-cell
       v-if="articleInfo.cover.type === 0"
@@ -45,10 +45,19 @@ export default {
       required: true
     }
   },
+  methods: {
+    // 跳转文章详情
+    artiicles (item) {
+      console.log('跳转')
+      this.$router.push(`/Dq/${this.articleInfo.art_id}`)
+    }
+  },
   computed: {
     articleDesc () {
       const arr = this.articleInfo
+      // console.log(arr)
       const relativeTime = dayjs(arr.pubdate).fromNow()
+      console.log(relativeTime)
       return `${arr.aut_name} ${arr.comm_count}评论 ${relativeTime}`
     }
   }
