@@ -28,3 +28,22 @@ export const getUserInfo = () => {
     }
   })
 }
+// 编辑用户资料
+export const Personaldata = (name, gender, birthday) => {
+  return request({
+    url: '/v1_0/user/profile',
+    method: 'PATCH',
+    data: {
+      name: name,
+      gender: gender,
+      birthday: birthday,
+      real_name: '吴龙',
+      intro: '很帅'
+    }
+  })
+}
+export const APersonaldata = () => {
+  return request({
+    url: '/v1_0/user/profile'
+  })
+}
