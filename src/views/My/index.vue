@@ -12,14 +12,18 @@
                 round
                 width="1.76rem"
                 height="1.76rem"
-                src="userInfo.photo"
+                :src="userInfo.photo"
               />
               <span class="mobile">{{ userInfo.name }}</span>
             </van-row>
           </van-col>
           <van-col span="11">
             <van-row type="flex" align="center" justify="end" class="code-row">
-              <van-button class="code-btn" size="mini" round
+              <van-button
+                @click="$router.push('/userinfo')"
+                class="code-btn"
+                size="mini"
+                round
                 >编辑资料</van-button
               >
             </van-row>
@@ -83,17 +87,17 @@
 <script>
 import { getUserInfo } from '@/api'
 export default {
-  data () {
+  data() {
     return {
       userInfo: {}
     }
   },
   methods: {
-    logout () {
+    logout() {
       this.$dialog
         .confirm({
           title: '嘿吴龙',
-          message: '是否确认该账户'
+          message: '是否退出该账户'
         })
         .then(() => {
           // on confirm
@@ -103,11 +107,11 @@ export default {
           // on cancel
         })
     },
-    Onno () {
+    Onno() {
       this.$router.push('/login')
     },
     // 获取用户信息------------------------------
-    async getUserInfo () {
+    async getUserInfo() {
       if (this.isLogin) {
         try {
           const {
@@ -125,11 +129,11 @@ export default {
   },
   computed: {
     // 判断是否登陆
-    isLogin () {
+    isLogin() {
       return !!this.$store.state.user.token
     }
   },
-  created () {
+  created() {
     this.getUserInfo()
   }
 }

@@ -57,7 +57,7 @@ export default {
       const arr = this.articleInfo
       // console.log(arr)
       const relativeTime = dayjs(arr.pubdate).fromNow()
-      console.log(relativeTime)
+      // console.log(relativeTime)
       return `${arr.aut_name} ${arr.comm_count}评论 ${relativeTime}`
     }
   }

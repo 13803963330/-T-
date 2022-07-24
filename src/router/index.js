@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Userinfo from '../views/My/userinfo.vue'
+
 // import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
@@ -12,6 +14,10 @@ const routes = [
   {
     path: '/search',
     component: () => import('@/views/Search')
+  },
+  {
+    path: '/userinfo',
+    component: Userinfo
   },
   {
     path: '/Dq/:id',

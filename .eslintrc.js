@@ -19,6 +19,10 @@ module.exports = {
     'vue/valid-template-root': 'off',
     'vue/no-dupe-keys': 'off',
     'no-undef': 'off',
-    'space-before-function-paren': 'off'
+    'space-before-function-paren': 'off',
+    'no-dupe-keys':'off',
+    'vue/no-parsing-error':'off',
+    'no-const-assign':'off',
+    'no-unused-vars':'off'
   }
 }
