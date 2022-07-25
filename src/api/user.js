@@ -47,3 +47,11 @@ export const APersonaldata = () => {
     url: '/v1_0/user/profile'
   })
 }
+// 编辑头像
+export const uploadPhoto = (photo) => {
+  return request({
+    url: '/v1_0/user/photo',
+    method: 'PATCH',
+    data: photo
+  })
+}

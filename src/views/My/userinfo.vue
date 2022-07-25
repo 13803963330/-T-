@@ -13,21 +13,11 @@
     <!-- 头像 -->
     <input type="file" ref="file" hidden accept=".png,.jpg" />
     <van-cell class="calssa" title="头像" is-link @click="$refs.file.click()">
-      <van-image
-        width="40"
-        height="40"
-        round
-        src="https://img01.yzcdn.cn/vant/cat.jpeg"
-      />
+      <van-image width="40" height="40" round :src="imgUrl" />
     </van-cell>
     <!-- 弹出层 -->
-    <van-popup v-model="show">
-      <UpdatePhoto
-        :photo="photo"
-        v-if="show1"
-        @confirm="confirm"
-        @noConfirm="noConfirm"
-      ></UpdatePhoto>
+    <van-popup v-model="show1">
+      <UpdatePhoto :photo="photo" @confirm="confirm"></UpdatePhoto>
     </van-popup>
 
     <!-- 昵称 -->
@@ -86,14 +76,21 @@
 </template>
 
 <script>
+import UpdatePhoto from './comm/Updateph.vue'
 import { Personaldata, APersonaldata } from '@/api/index'
 export default {
+  components: {
+    UpdatePhoto
+  },
   data() {
     return {
       Ashow: false,
       Bshow: false,
       Cshow: false,
       Dshow: false,
+      show1: false,
+      imgUrl: '',
+      photo: '',
       Adate: '',
       Cdate: '',
       message: '',
@@ -106,6 +103,7 @@ export default {
   },
   created() {
     this.APersonaldata()
+    this.confirm()
   },
   methods: {
     // 返回上页
@@ -156,7 +154,7 @@ export default {
           this.double,
           this.currentDate
         )
-        console.log(res)
+        this.$router.go(-1)
       } catch (e) {
         console.log('e', e)
         this.$toast.fail('提交信息失败，请刷新重试')
@@ -173,21 +171,27 @@ export default {
         }
         this.message = res.data.data.name
         this.currentDate = res.data.data.birthday
+        this.imgUrl = res.data.data.photo
         console.log(res)
       } catch (e) {
         console.log('e', e)
         this.$toast.fail('获取信息失败，请刷新重试')
       }
-    }
+    },
+    confirm() {}
   },
   // 头像
   mounted() {
+    // 更新触发change事件
     this.$refs.file.addEventListener('change', (e) => {
+      // e.target.files得到伪数组拿取第一个选择的文件
       const file = e.target.files[0]
       const fr = new FileReader()
       fr.readAsDataURL(file)
       fr.onload = (e) => {
         this.photo = e.target.result
+        console.log(this.photo)
+        // 选择文件触发弹层
         this.show1 = true
         // 处理上传同一张照片无法再次打开
         this.$refs.file.value = ''
